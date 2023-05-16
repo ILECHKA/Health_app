@@ -12,6 +12,8 @@ function FactList(data) {
   field.prepend(fact);
 }
 
+const loader = document.querySelector('.loader');
+
 async function getData() {
   const response = await fetch(
     'https://api.api-ninjas.com/v1/facts?limit=1&',
@@ -23,7 +25,10 @@ async function getData() {
     },
   );
   const data = await response.json();
-  await FactList(data);
+  setTimeout(() => {
+    loader.classList.toggle('hidden');
+    FactList(data);
+  }, 1000);
 }
 
 function clear() {
@@ -37,6 +42,7 @@ export default function RndFact() {
   const FactButton = document.getElementById('fact__button');
   FactButton.addEventListener('click', () => {
     clear();
+    loader.classList.toggle('hidden');
     getData();
   });
 }
